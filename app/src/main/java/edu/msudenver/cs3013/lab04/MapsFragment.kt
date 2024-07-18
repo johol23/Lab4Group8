@@ -21,6 +21,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
@@ -40,8 +41,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
-    private var marker: Marker?= null
-
+    private var marker: Marker? = null
 
     private val fusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(requireContext())
@@ -74,49 +74,42 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 }
             }
 
-
+        val viewModel = ViewModelProvider(requireActivity()).get(myViewModel::class.java)
         val onParkedHereButton = view.findViewById<Button>(R.id.Parking)
 
         onParkedHereButton.setOnClickListener {
-            fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
-                location?.let {
-                    val userLocation = LatLng(location.latitude, location.longitude)
-                    addOrMoveMarker(userLocation)
-
-                    /*
-                    * new function
-                    * */
-
-
-            }
+            marker?.let {
+                val markerLocation = it.position
+                viewModel.setParkingLocation(markerLocation)
+                updateText(markerLocation)
             }
         }
 
-        prepareViewModel()}
+
+
+        prepareViewModel()
+
+    }
     // each time we open the activity and the value will be displayed. The require activity replaced the this key word to make sure that a new instance isnt created
 
 
     private fun prepareViewModel() {
 
         val totalsViewModel =
-            ViewModelProvider(requireActivity()).get(viewModel::class.java)
+            ViewModelProvider(requireActivity()).get(myViewModel::class.java)
         totalsViewModel.parkUpdate.observe(viewLifecycleOwner, { updateText(it) })
 
 
-        view?.findViewById<Button>(R.id.Parking)?.setOnClickListener {
-            totalsViewModel.parkUpdate
+        //view?.findViewById<Button>(R.id.Parking)?.setOnClickListener {
+         //  totalsViewModel.parkUpdate
         }
-    }
-
-
-
-    private fun updateText(total: String) {
-        view?.findViewById<TextView>(R.id.maps_text_view)
-            ?.text = ("text")
 
 
 
 
+    private fun updateText(latLng: LatLng) {
+
+        view?.findViewById<TextView>(R.id.maps_text_view)?.text = "${latLng.latitude}, ${latLng.longitude}"
     }
 
 
@@ -126,18 +119,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             marker = addMarkerAtLocation(latLng, "I'm parked here",
                 getBitmapDescriptorFromVector(R.drawable.car_pin)
             )
-        } else { marker?.apply { position = latLng } }
-    }
-
-
-
-
-
-
-
-
-
-
+        } else { marker?.position=latLng }
+        }
 
 
     /**
@@ -152,7 +135,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap.apply {
             setOnMapClickListener { latLng ->
-                addOrMoveSelectedPositionMarker(latLng)
+                //addOrMoveSelectedPositionMarker(latLng)
+                addOrMoveMarker(latLng)
             }
         }
 
@@ -236,7 +220,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             marker = addMarkerAtLocation(latLng, "Deploy here",
                 getBitmapDescriptorFromVector(R.drawable.car_pin)
             )
-        } else { marker?.apply { position = latLng } }
+        } else { marker?.apply { position = latLng }
+            }
     }
 
 

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.maps.model.LatLng
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,23 +43,23 @@ class DetailFragment : Fragment() {
                                savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<TextView> (
-            R.id.detail_fragment).text =
-            getString(R.string.total, 0)
+//        view.findViewById<TextView> (
+//            R.id.detail_fragment).text =
+//            getString(R.string.total, 0)
 
 
         // each time we open the activity and the value will be displayed
 
         val totalsViewModel =
-            ViewModelProvider(requireActivity()).get(viewModel::class.java)
+            ViewModelProvider(requireActivity()).get(myViewModel::class.java)
         totalsViewModel.parkUpdate.observe(viewLifecycleOwner, { updateText(it) })
     }
 
 
 
-    private fun updateText(total: String) {
+    private fun updateText(latLng: LatLng) {
         view?.findViewById<TextView>(R.id.detail_fragment)
-            ?.text = getString(R.string.total, total)
+            ?.text = "Latitude: ${latLng.latitude}, Longitude: ${latLng.longitude}"
     }
 
     companion object {

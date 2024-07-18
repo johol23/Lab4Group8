@@ -6,15 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 
-class viewModel: ViewModel() {
+class myViewModel : ViewModel() {
 
-    private val _parkingLocation = MutableLiveData<String>()
-    val parkUpdate: LiveData<String> get() = _parkingLocation
-    init {
-        _parkingLocation.postValue(0)
-    }
+    private val _parkingLocation = MutableLiveData<LatLng>()
+    val parkUpdate: LiveData<LatLng> get() = _parkingLocation
 
-    fun setParkingLocation(latLng: String) {
+    fun setParkingLocation(latLng: LatLng) {
         _parkingLocation.value = latLng
     }
 }
