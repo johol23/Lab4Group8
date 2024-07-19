@@ -78,10 +78,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         val onParkedHereButton = view.findViewById<Button>(R.id.Parking)
 
         onParkedHereButton.setOnClickListener {
-            marker?.let {
-                val markerLocation = it.position
-                viewModel.setParkingLocation(markerLocation)
-                updateText(markerLocation)
+            marker?.let {//check if marker not null
+                val markerLocation = it.position//marker location get position  lat lon from marker
+                viewModel.setParkingLocation(markerLocation) //call method inside viewmodel pass marker location
+                updateText(markerLocation)// send markerlocation to update text method
             }
         }
 
@@ -99,17 +99,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             ViewModelProvider(requireActivity()).get(myViewModel::class.java)
         totalsViewModel.parkUpdate.observe(viewLifecycleOwner, { updateText(it) })
 
-
-        //view?.findViewById<Button>(R.id.Parking)?.setOnClickListener {
-         //  totalsViewModel.parkUpdate
-        }
-
-
-
-
+    }
     private fun updateText(latLng: LatLng) {
 
-        view?.findViewById<TextView>(R.id.maps_text_view)?.text = "${latLng.latitude}, ${latLng.longitude}"
+        view?.findViewById<TextView>(R.id.maps_text_view)?.text =
+            "${latLng.latitude}, ${latLng.longitude}"
     }
 
 
@@ -215,6 +209,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             .also { bitmap?.recycle() }
     }
 
+
+    //this function is not used in this version of the code
     private fun addOrMoveSelectedPositionMarker(latLng: LatLng) {
         if (marker == null) {
             marker = addMarkerAtLocation(latLng, "Deploy here",
