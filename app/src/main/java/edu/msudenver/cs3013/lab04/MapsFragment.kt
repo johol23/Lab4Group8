@@ -81,7 +81,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             marker?.let {//check if marker not null
                 val markerLocation = it.position//marker location get position  lat lon from marker
                 viewModel.setParkingLocation(markerLocation) //call method inside viewmodel pass marker location
-                updateText(markerLocation)// send markerlocation to update text method
+                //updateText(markerLocation)// send markerlocation to update text method
             }
         }
 
@@ -95,15 +95,16 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private fun prepareViewModel() {
 
-        val totalsViewModel =
+        val ViewModel =
             ViewModelProvider(requireActivity()).get(myViewModel::class.java)
-        totalsViewModel.parkUpdate.observe(viewLifecycleOwner, { updateText(it) })
+        ViewModel.parkUpdate.observe(viewLifecycleOwner, { updateText(it) })
 
     }
+    //commented out TextView because we dont need to display anything but we do need it for the view model
     private fun updateText(latLng: LatLng) {
 
-        view?.findViewById<TextView>(R.id.maps_text_view)?.text =
-            "${latLng.latitude}, ${latLng.longitude}"
+        //view?.findViewById<TextView>(R.id.maps_text_view)?.text =
+            //"${latLng.latitude}, ${latLng.longitude}"
     }
 
 

@@ -43,16 +43,11 @@ class DetailFragment : Fragment() {
                                savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        view.findViewById<TextView> (
-//            R.id.detail_fragment).text =
-//            getString(R.string.total, 0)
-
-
         // each time we open the activity and the value will be displayed
 
-        val totalsViewModel =
+        val ViewModel =
             ViewModelProvider(requireActivity()).get(myViewModel::class.java)
-        totalsViewModel.parkUpdate.observe(viewLifecycleOwner, { updateText(it) })
+        ViewModel.parkUpdate.observe(viewLifecycleOwner, { updateText(it) })
     }
 
 

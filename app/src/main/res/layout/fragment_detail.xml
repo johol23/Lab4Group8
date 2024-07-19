@@ -9,7 +9,10 @@
     <TextView
         android:id="@+id/detail_fragment"
         android:layout_width="match_parent"
-        android:text="coordinates go here"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:text="Click to button to get coordinates"
         android:layout_height="match_parent" />
 
 </FrameLayout>
