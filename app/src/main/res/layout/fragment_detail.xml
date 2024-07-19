@@ -5,14 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".DetailFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <fragment
+        android:id="@+id/detail_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <TextView
         android:id="@+id/detail_fragment"
         android:layout_width="match_parent"
         android:gravity="center"
         android:textSize="18dp"
         android:textStyle="bold"
-        android:text="Click to button to get coordinates"
-        android:layout_height="match_parent" />
+        android:text="Click the button to get coordinates"
+        android:layout_height="wrap_content" />
 
 </FrameLayout>
